@@ -10,6 +10,13 @@ public class Player : MonoBehaviour
     public bool isTouchRight;   // 오른쪽 벽과 닿았는지 여부
     public bool isTouchLeft;    // 왼쪽 벽과 닿았는지 여부
 
+    Animator anim;              // 애니메이터
+
+    void Awake()
+    {
+        anim = GetComponent<Animator>();                                        // 애니메이터 컴포넌트 가져오기
+    }
+
     void Update()
     {
         float h = Input.GetAxis("Horizontal");                                  // 방향 키 입력
@@ -18,14 +25,21 @@ public class Player : MonoBehaviour
         float v = Input.GetAxis("Vertical");                                    // 방향 키 입력
         if ((isTouchTop && v == 1) || (isTouchBottom && v == -1)) v = 0;        // 위쪽 벽과 닿았고 위쪽 방향키 입력 시
 
+        Debug.Log(h);
+
         Vector3 curPos = transform.position;                                    // 현재 위치
         Vector3 nextPos = new Vector3(h, v, 0) * speed * Time.deltaTime;        // 다음 위치
     
         transform.position = curPos + nextPos;                                  // 이동
+    
+        if(Input.GetButtonDown("Horizontal") || Input.GetButtonUp("Horizontal"))// 좌우 방향키 입력 시
+        {
+            anim.SetInteger("Input",(int)h);                                    // 애니메이터의 Input 파라미터 설정
+        }
     }
 
     // 충돌 처리 (벽과 닿았을 때)
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Border")    // Border 태그와 충돌 시
         {
@@ -48,7 +62,7 @@ public class Player : MonoBehaviour
     }
 
     // 충돌 해제
-    private void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Border")    // Border 태그와 충돌 시
         {
@@ -69,3 +83,4 @@ public class Player : MonoBehaviour
             }
         }
     }
+}
