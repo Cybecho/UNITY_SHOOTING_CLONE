@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed;         // 이동 속도
     public float power;         // 총알 파워
     public float maxShotDelay;  // 최대 총알 발사 딜레이
     public float curShotDelay;  // 현재 총알 발사 딜레이
     public float attackRange;   // 공격 범위
+    public float speed;         // 이동 속도 추가
 
     public bool isTouchTop;     // 위쪽 벽과 닿았는지 여부
     public bool isTouchBottom;  // 아래쪽 벽과 닿았는지 여부
@@ -22,12 +22,25 @@ public class Player : MonoBehaviour
     private bool isGamePaused = false;  // 게임 일시정지 여부
     private int enemyCollisionCount = 0; // 적과의 충돌 횟수 추적
 
+    public GameObject[] followerPrefabs; // Follower 프리팹 배열
+    public int followerCount; // 생성할 Follower 수
+    private List<GameObject> followers = new List<GameObject>(); // 생성된 Follower 리스트
+    
     Animator anim;              // 애니메이터
 
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>(); // GameManager 인스턴스 가져오기
         anim = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
+
+        // Follower 생성 및 초기화
+        for (int i = 0; i < followerCount; i++)
+        {
+            int randomIndex = Random.Range(0, followerPrefabs.Length);
+            GameObject follower = Instantiate(followerPrefabs[randomIndex], transform.position, Quaternion.identity);
+            follower.GetComponent<Follower>().player = this.gameObject;
+            followers.Add(follower);
+        }
     }
 
     void Update()
