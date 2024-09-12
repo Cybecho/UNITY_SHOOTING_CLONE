@@ -123,11 +123,26 @@ public class Enemy : MonoBehaviour
         GameObject deathAnimation = Instantiate(deathAnimationPrefab, transform.position, Quaternion.identity);
         Animator animator = deathAnimation.GetComponent<Animator>();
 
-        // 애니메이션이 한 사이클만 재생되도록 설정
+        // 부모 오브젝트의 속도를 가져옴
+        Rigidbody2D parentRigidbody = GetComponent<Rigidbody2D>();
+        if (parentRigidbody != null)
+        {
+            Rigidbody2D deathAnimationRigidbody = deathAnimation.AddComponent<Rigidbody2D>();
+            deathAnimationRigidbody.velocity = parentRigidbody.velocity;
+
+            // 중력 영향을 받지 않도록 설정
+            deathAnimationRigidbody.gravityScale = 0;
+
+            // 하드코딩으로 속도를 조정 (예: 부모 속도의 0.5배)
+            deathAnimationRigidbody.velocity = new Vector2(parentRigidbody.velocity.x, parentRigidbody.velocity.y * 0.5f);
+        }
+
+        // 애니메이션 재생 속도를 2배로 설정
         if (animator != null)
         {
+            animator.speed = 2.0f; // 애니메이션 재생 속도를 2배로 설정
             animator.Play(0, -1, 0);
-            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length / 2); // 애니메이션 길이를 절반으로 줄임
         }
 
         // 애니메이션 오브젝트 삭제
