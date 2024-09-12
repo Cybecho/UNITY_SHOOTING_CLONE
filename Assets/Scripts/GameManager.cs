@@ -1,22 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject[] enemyObjs;      // 적 오브젝트 배열
     public Transform[] spawnPoints;     // 스폰 위치 배열
-
     public float spawnInterval;         // 스폰 주기 (초 단위)
     private Coroutine spawnCoroutine;   // 스폰 코루틴을 저장할 변수
     private bool isSpawningPaused = false; // 스폰 일시정지 여부
-
     private Background[] backgrounds;   // 배경 스크롤 스크립트 배열
+    private int spawnCount = 0;         // 스폰 카운트 변수
 
+    public Slider goalBarSlider;        // GoalBarSlider 참조
+    public int goalCount;          // 목표 스폰 횟수
     void Start()
     {
         spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine()); // Coroutine 시작
         backgrounds = FindObjectsOfType<Background>(); // 모든 배경 스크롤 스크립트 가져오기
+
+        // GoalBarSlider 초기화
+        goalBarSlider.minValue = 0;
+        goalBarSlider.maxValue = goalCount;
+        goalBarSlider.value = 0;
     }
 
     IEnumerator SpawnEnemiesRoutine()
@@ -26,6 +33,18 @@ public class GameManager : MonoBehaviour
             if (!isSpawningPaused)
             {
                 SpawnEnemies(); // 적 스폰 함수 호출
+                spawnCount++; // 스폰 카운트 증가
+                Debug.Log("적 스폰: " + spawnCount + "회");
+
+                // GoalBarSlider 업데이트
+                goalBarSlider.value = spawnCount;
+
+                // GoalBarSlider가 가득 찼을 때 처리
+                if (spawnCount >= 50)
+                {
+                    Debug.Log("GoalBarSlider가 가득 찼습니다!");
+                    // 추가 로직을 여기에 작성할 수 있습니다.
+                }
             }
             yield return new WaitForSeconds(spawnInterval); // 스폰 주기만큼 대기
         }
