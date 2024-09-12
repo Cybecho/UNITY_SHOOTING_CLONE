@@ -11,9 +11,12 @@ public class GameManager : MonoBehaviour
     private Coroutine spawnCoroutine;   // 스폰 코루틴을 저장할 변수
     private bool isSpawningPaused = false; // 스폰 일시정지 여부
 
+    private Background[] backgrounds;   // 배경 스크롤 스크립트 배열
+
     void Start()
     {
         spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine()); // Coroutine 시작
+        backgrounds = FindObjectsOfType<Background>(); // 모든 배경 스크롤 스크립트 가져오기
     }
 
     IEnumerator SpawnEnemiesRoutine()
@@ -57,13 +60,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 스폰 일시정지
     public void PauseSpawning()
     {
-        isSpawningPaused = true; // 스폰 일시정지
+        isSpawningPaused = true;
     }
 
+    // 스폰 일시정지 해제
     public void ResumeSpawning()
     {
-        isSpawningPaused = false; // 스폰 재시작
+        isSpawningPaused = false; 
+    }
+    
+    // 배경 스크롤 일시정지
+    public void StopBackground()
+    {
+        foreach (Background background in backgrounds)
+        {
+            background.StopMovement();
+        }
+    }
+    
+    // 배경 스크롤 일시정지 해제
+    public void ResumeBackground()
+    {
+        foreach (Background background in backgrounds)
+        {
+            background.ResumeMovement();
+        }
     }
 }

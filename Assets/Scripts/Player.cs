@@ -123,6 +123,7 @@ public class Player : MonoBehaviour
                 isGamePaused = true;
                 gameManager.PauseSpawning(); // 적 스폰 일시정지
                 StopAllEnemies(); // 모든 적의 움직임 정지
+                StopAllBackgrounds(); // 모든 배경의 움직임 정지
             }
             enemyCollisionCount++;
         }
@@ -195,6 +196,24 @@ public class Player : MonoBehaviour
         foreach (Enemy enemy in enemies)
         {
             enemy.ResumeMovement(); // 모든 적의 움직임 재시작
+        }
+    }
+
+    void StopAllBackgrounds()
+    {
+        Background[] backgrounds = FindObjectsOfType<Background>(); // 모든 배경 오브젝트 가져오기
+        foreach (Background background in backgrounds)
+        {
+            background.StopMovement(); // 모든 배경의 움직임 정지
+        }
+    }
+
+    void ResumeAllBackgrounds()
+    {
+        Background[] backgrounds = FindObjectsOfType<Background>(); // 모든 배경 오브젝트 가져오기
+        foreach (Background background in backgrounds)
+        {
+            background.ResumeMovement(); // 모든 배경의 움직임 재시작
         }
     }
 }

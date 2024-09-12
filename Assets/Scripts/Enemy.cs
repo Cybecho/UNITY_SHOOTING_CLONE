@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer spriteRenderer; // 스프라이트 렌더러 컴포넌트
     private Vector2 savedVelocity; // 정지 전 속도를 저장할 변수
     private bool isPaused = false; // 일시정지 여부
+    private GameManager gameManager;
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class Enemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>(); // 스프라이트 렌더러 컴포넌트 가져오기
         rigid.velocity = Vector2.down * speed; // 아래쪽으로 이동
         savedVelocity = rigid.velocity; // 초기 속도 저장
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     void Update()
@@ -61,14 +63,15 @@ public class Enemy : MonoBehaviour
         isPaused = true;
         savedVelocity = rigid.velocity;
         rigid.velocity = Vector2.zero;
+        gameManager.StopBackground();
     }
 
     public void ResumeMovement()
     {
         isPaused = false;
         rigid.velocity = savedVelocity;
+        gameManager.ResumeBackground();
     }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("BorderBullet")) // 충돌한 오브젝트의 태그가 BorderBullet이면
