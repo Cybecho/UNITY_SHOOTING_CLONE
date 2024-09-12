@@ -6,7 +6,8 @@ using UnityEngine.UI; // Slider를 사용하기 위해 추가
 public class Enemy : MonoBehaviour
 {
     public float speed; // 이동 속도
-    public int health; // 체력
+    public int maxHealth; // 최대 체력
+    public int health; // 현재 체력
     public Sprite[] sprites; // 스프라이트 배열
     private Rigidbody2D rigid; // 리지드바디 컴포넌트
     private SpriteRenderer spriteRenderer; // 스프라이트 렌더러 컴포넌트
@@ -16,6 +17,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject hpBarPrefab; // HPbar 프리팹 참조
     private GameObject hpBarInstance; // 생성된 HPbar 인스턴스
+    private Slider hpBarSlider; // HPbar Slider 컴포넌트
     private bool isHpBarVisible = false; // HPbar가 보이는지 여부
 
     void Start()
@@ -39,6 +41,21 @@ public class Enemy : MonoBehaviour
         else
         {
             Debug.LogError("HPbar 프리팹에 Canvas 컴포넌트가 없습니다.");
+        }
+
+        // HPbar Slider 컴포넌트 가져오기
+        hpBarSlider = hpBarInstance.GetComponentInChildren<Slider>();
+        if (hpBarSlider == null)
+        {
+            Debug.LogError("HPbar 프리팹에 Slider 컴포넌트가 없습니다.");
+        }
+
+        // 초기 체력 설정 (랜덤으로 플러스 마이너스 30%)
+        float randomFactor = Random.Range(0.7f, 1.3f);
+        health = Mathf.RoundToInt(maxHealth * randomFactor);
+        if (hpBarSlider != null)
+        {
+            hpBarSlider.value = (float)health / maxHealth; // 초기 체력 비율로 Slider 값 설정
         }
     }
 
@@ -70,6 +87,12 @@ public class Enemy : MonoBehaviour
         {
             hpBarInstance.SetActive(true);
             isHpBarVisible = true;
+        }
+
+        // HPbar Slider 값 업데이트
+        if (hpBarSlider != null)
+        {
+            hpBarSlider.value = (float)health / maxHealth; // 체력 비율로 Slider 값 설정
         }
 
         if (health <= 0) // 체력이 0 이하이면

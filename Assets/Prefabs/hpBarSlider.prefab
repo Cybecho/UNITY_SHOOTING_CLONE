@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 2716770755939011953}
   - component: {fileID: 2103687562742371548}
   m_Layer: 5
-  m_Name: HPbar
+  m_Name: hpBarSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 9021376228521491183}
   - component: {fileID: 3013286262148083971}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: hpBarSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
