@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
         // HPbar 위치 업데이트
         if (hpBarInstance != null)
         {
-            hpBarInstance.transform.position = transform.position + Vector3.down * 0.5f;
+            hpBarInstance.transform.position = transform.position + Vector3.down * 0.7f;
         }
     }
     
