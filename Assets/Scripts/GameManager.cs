@@ -14,7 +14,11 @@ public class GameManager : MonoBehaviour
     private int spawnCount = 0;         // 스폰 카운트 변수
 
     public Slider goalBarSlider;        // GoalBarSlider 참조
-    public int goalCount;          // 목표 스폰 횟수
+    public int goalCount;               // 목표 스폰 횟수
+
+    private bool isSpawningEnabled = true; // 몬스터 소환 플래그
+    private bool isBossMode = false;       // 보스모드 플래그
+
     void Start()
     {
         spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine()); // Coroutine 시작
@@ -30,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (!isSpawningPaused)
+            if (!isSpawningPaused && isSpawningEnabled)
             {
                 SpawnEnemies(); // 적 스폰 함수 호출
                 spawnCount++; // 스폰 카운트 증가
@@ -40,13 +44,29 @@ public class GameManager : MonoBehaviour
                 goalBarSlider.value = spawnCount;
 
                 // GoalBarSlider가 가득 찼을 때 처리
-                if (spawnCount >= 50)
+                if (spawnCount >= goalCount)
                 {
                     Debug.Log("GoalBarSlider가 가득 찼습니다!");
-                    // 추가 로직을 여기에 작성할 수 있습니다.
+                    isSpawningEnabled = false; // 몬스터 소환 중지
+                    StartCoroutine(CheckAllEnemiesCleared()); // 모든 몬스터가 제거되었는지 확인
                 }
             }
             yield return new WaitForSeconds(spawnInterval); // 스폰 주기만큼 대기
+        }
+    }
+
+    IEnumerator CheckAllEnemiesCleared()
+    {
+        while (true)
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            if (enemies.Length == 0)
+            {
+                isBossMode = true; // 보스모드 플래그 설정
+                Debug.Log("모든 몬스터가 제거되었습니다. 보스모드 시작!");
+                break;
+            }
+            yield return new WaitForSeconds(1f); // 1초마다 확인
         }
     }
 
@@ -88,9 +108,9 @@ public class GameManager : MonoBehaviour
     // 스폰 일시정지 해제
     public void ResumeSpawning()
     {
-        isSpawningPaused = false; 
+        isSpawningPaused = false;
     }
-    
+
     // 배경 스크롤 일시정지
     public void StopBackground()
     {
@@ -99,7 +119,7 @@ public class GameManager : MonoBehaviour
             background.StopMovement();
         }
     }
-    
+
     // 배경 스크롤 일시정지 해제
     public void ResumeBackground()
     {
