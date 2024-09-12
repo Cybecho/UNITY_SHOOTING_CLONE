@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletBoss : MonoBehaviour
+public class BossBullet : MonoBehaviour
 {
     public int dmg;                                         // 총알 데미지
 
@@ -11,7 +11,7 @@ public class BulletBoss : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.gravityScale = Random.Range(1f, 5f);         // 중력 값을 1에서 5 사이의 랜덤 값으로 설정
+            rb.gravityScale = Random.Range(0.5f, 1.5f);         // 중력 값을 랜덤 값으로 설정
         }
     }
 

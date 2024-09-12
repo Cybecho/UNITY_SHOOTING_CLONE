@@ -204,7 +204,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("BossBullet")) // 충돌한 오브젝트의 태그가 BossBullet이면
         {
-            BulletBoss bulletBoss = collision.gameObject.GetComponent<BulletBoss>(); // 충돌한 오브젝트의 BulletBoss 컴포넌트 가져오기
+            BossBullet bulletBoss = collision.gameObject.GetComponent<BossBullet>(); // 충돌한 오브젝트의 BulletBoss 컴포넌트 가져오기
             if (bulletBoss != null)
             {
                 OnHit(bulletBoss.dmg); // 피격 함수 호출

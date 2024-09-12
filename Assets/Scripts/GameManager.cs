@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     private bool isSpawningEnabled = true; // 몬스터 소환 플래그
     private bool isBossMode = false;       // 보스모드 플래그
 
+    public GameObject[] bossBulletPrefabs; // 보스 총알 프리팹 배열
+    public float bossBulletSpawnInterval = 1f; // 보스 총알 스폰 주기
+
     void Start()
     {
         spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine()); // Coroutine 시작
@@ -64,9 +67,26 @@ public class GameManager : MonoBehaviour
             {
                 isBossMode = true; // 보스모드 플래그 설정
                 Debug.Log("모든 몬스터가 제거되었습니다. 보스모드 시작!");
+                StartCoroutine(SpawnBossBullets()); // 보스 총알 스폰 코루틴 시작
                 break;
             }
-            yield return new WaitForSeconds(1f); // 1초마다 확인
+            yield return new WaitForSeconds(3f); // 1초마다 확인
+        }
+    }
+
+    IEnumerator SpawnBossBullets()
+    {
+        yield return new WaitForSeconds(2f); // 2초 대기
+
+        while (isBossMode)
+        {
+            int ranPoint = Random.Range(0, spawnPoints.Length); // 랜덤 스폰 위치 인덱스
+            int ranBullet = Random.Range(0, bossBulletPrefabs.Length); // 랜덤 보스 총알 인덱스
+            Instantiate(bossBulletPrefabs[ranBullet], 
+                        spawnPoints[ranPoint].position, 
+                        spawnPoints[ranPoint].rotation); // 보스 총알 생성
+
+            yield return new WaitForSeconds(bossBulletSpawnInterval); // 보스 총알 스폰 주기만큼 대기
         }
     }
 
