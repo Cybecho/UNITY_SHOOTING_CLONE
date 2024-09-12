@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 
     private GameManager gameManager;    // 게임 매니저
     private bool isGamePaused = false;  // 게임 일시정지 여부
+    private int enemyCollisionCount = 0; // 적과의 충돌 횟수 추적
 
     Animator anim;              // 애니메이터
 
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        anim = GetComponent<Animator>();                                        // 애니메이터 컴포넌트 가져오기
+        anim = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
     }
 
     void Update()
@@ -49,20 +50,18 @@ public class Player : MonoBehaviour
 
         Vector3 curPos = transform.position;
         Vector3 nextPos = new Vector3(h, v, 0).normalized * speed * Time.deltaTime;
-        
+
         transform.position = curPos + nextPos;
-        
+
         // 매 프레임마다 애니메이터 파라미터 업데이트
         UpdateAnimatorParameters(h);
 
         Debug.Log($"h value: {h}, Animator Input parameter: {anim.GetInteger("Input")}");
     }
 
-    // 애니메이터 파라미터 업데이트
     void UpdateAnimatorParameters(float h)
     {
-        if (h != 0) anim.SetInteger("Input", (int)Mathf.Sign(h));   // h 값이 0이 아니면 현재 h값을 애니메이터 파라미터 설정
-        else anim.SetInteger("Input", 0);                           // h 값이 0이면 애니메이터 파라미터 0으로 설정
+        anim.SetInteger("Input", (int)h);
     }
 
     void Fire()
@@ -111,14 +110,17 @@ public class Player : MonoBehaviour
         curShotDelay += Time.deltaTime;  // 현재 총알 발사 딜레이에 시간을 더함
     }
 
-    // 충돌 처리 (벽과 닿았을 때)
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy")) // 충돌한 오브젝트의 태그가 Enemy이면
         {
-            isGamePaused = true;
-            gameManager.PauseSpawning(); // 적 스폰 일시정지
-            StopAllEnemies(); // 모든 적의 움직임 정지
+            if (enemyCollisionCount == 0)
+            {
+                isGamePaused = true;
+                gameManager.PauseSpawning(); // 적 스폰 일시정지
+                StopAllEnemies(); // 모든 적의 움직임 정지
+            }
+            enemyCollisionCount++;
         }
 
         if (collision.gameObject.tag == "Border")    // Border 태그와 충돌 시
@@ -141,14 +143,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    // 충돌 해제
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy")) // 충돌한 오브젝트의 태그가 Enemy이면
         {
-            isGamePaused = false;
-            gameManager.ResumeSpawning(); // 적 스폰 재시작
-            ResumeAllEnemies(); // 모든 적의 움직임 재시작
+            enemyCollisionCount--;
+            if (enemyCollisionCount == 0)
+            {
+                isGamePaused = false;
+                gameManager.ResumeSpawning(); // 적 스폰 재시작
+                ResumeAllEnemies(); // 모든 적의 움직임 재시작
+            }
         }
 
         if (collision.gameObject.tag == "Border")    // Border 태그와 충돌 시
