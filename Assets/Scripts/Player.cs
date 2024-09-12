@@ -202,6 +202,16 @@ public class Player : MonoBehaviour
             enemyCollisionCount++;
         }
 
+        if (collision.gameObject.CompareTag("BossBullet")) // 충돌한 오브젝트의 태그가 BossBullet이면
+        {
+            BulletBoss bulletBoss = collision.gameObject.GetComponent<BulletBoss>(); // 충돌한 오브젝트의 BulletBoss 컴포넌트 가져오기
+            if (bulletBoss != null)
+            {
+                OnHit(bulletBoss.dmg); // 피격 함수 호출
+                Destroy(collision.gameObject); // 충돌한 오브젝트 삭제
+            }
+        }
+
         if (collision.gameObject.tag == "Border")    // Border 태그와 충돌 시
         {
             switch (collision.gameObject.name)       // 충돌한 오브젝트의 이름으로 분기
