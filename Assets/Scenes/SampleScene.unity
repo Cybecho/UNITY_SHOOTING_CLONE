@@ -855,10 +855,7 @@ MonoBehaviour:
   - {fileID: 669563566}
   - {fileID: 1293772671}
   - {fileID: 1229411987}
-  maxSpawnDelay: 2
-  curSpawnDelay: 0
-  minEnemies: 1
-  maxEnemies: 3
+  spawnInterval: 1
 --- !u!4 &792672795
 Transform:
   m_ObjectHideFlags: 0
