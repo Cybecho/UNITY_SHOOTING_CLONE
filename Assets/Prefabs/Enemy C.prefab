@@ -30,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4066552277546048627}
   m_Father: {fileID: 0}
@@ -177,6 +177,7 @@ MonoBehaviour:
   sprites:
   - {fileID: -8421458170528590454, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   - {fileID: 3714015224569861163, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
+  hpBarPrefab: {fileID: 233875395441460256, guid: ab35ec3ccbccc0a42bd6fc177bbd2447, type: 3}
 --- !u!1001 &3342158049752116996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -251,7 +252,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3357008856261501163, guid: a7820a71d6205a24b980a26a226fc275, type: 3}
       propertyPath: m_Size.x
-      value: 1
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 3357008856261501163, guid: a7820a71d6205a24b980a26a226fc275, type: 3}
       propertyPath: m_Size.y
@@ -275,7 +276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8441537883559201890, guid: a7820a71d6205a24b980a26a226fc275, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.35
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

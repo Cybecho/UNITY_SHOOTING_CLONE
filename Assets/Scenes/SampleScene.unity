@@ -1362,6 +1362,74 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 14}
   m_EdgeRadius: 0
+--- !u!1 &2038955401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2038955404}
+  - component: {fileID: 2038955403}
+  - component: {fileID: 2038955402}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2038955402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038955401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &2038955403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038955401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &2038955404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038955401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2059378884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,13 +1481,29 @@ PrefabInstance:
       propertyPath: maxShotDelay
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 5946254172614789927, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
+      propertyPath: followerCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946254172614789927, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
+      propertyPath: followerPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946254172614789927, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
+      propertyPath: followerPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 8490733068545688574, guid: c0da8f90e7876bf47abda43593dbf30b, type: 3}
+    - target: {fileID: 5946254172614789927, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
+      propertyPath: followerPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 8490733068545688574, guid: c985967f18f7197439040b9a6532d3e6, type: 3}
     - target: {fileID: 7636598129945339384, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7636598129945339384, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.73
+      value: -1.61
       objectReference: {fileID: 0}
     - target: {fileID: 7636598129945339384, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1452,6 +1536,14 @@ PrefabInstance:
     - target: {fileID: 7636598129945339384, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088210863116371848, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088210863116371848, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
+      propertyPath: m_Size.y
+      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1529,3 +1621,4 @@ SceneRoots:
   - {fileID: 1039128620}
   - {fileID: 59254211}
   - {fileID: 301949890}
+  - {fileID: 2038955404}

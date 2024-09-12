@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // Slider를 사용하기 위해 추가
 
 public class Enemy : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class Enemy : MonoBehaviour
     private bool isPaused = false; // 일시정지 여부
     private GameManager gameManager;
 
+    public GameObject hpBarPrefab; // HPbar 프리팹 참조
+    private GameObject hpBarInstance; // 생성된 HPbar 인스턴스
+    private bool isHpBarVisible = false; // HPbar가 보이는지 여부
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>(); // 리지드바디 컴포넌트 가져오기
@@ -20,6 +25,21 @@ public class Enemy : MonoBehaviour
         rigid.velocity = Vector2.down * speed; // 아래쪽으로 이동
         savedVelocity = rigid.velocity; // 초기 속도 저장
         gameManager = FindObjectOfType<GameManager>();
+
+        // HPbar 생성 및 초기화
+        hpBarInstance = Instantiate(hpBarPrefab, transform.position + Vector3.up * 1.0f, Quaternion.identity, transform);
+        hpBarInstance.SetActive(false); // 초기에는 비활성화
+
+        // HPbar가 올바르게 설정되었는지 확인
+        Canvas hpBarCanvas = hpBarInstance.GetComponentInChildren<Canvas>();
+        if (hpBarCanvas != null)
+        {
+            hpBarCanvas.renderMode = RenderMode.WorldSpace;
+        }
+        else
+        {
+            Debug.LogError("HPbar 프리팹에 Canvas 컴포넌트가 없습니다.");
+        }
     }
 
     void Update()
@@ -31,6 +51,12 @@ public class Enemy : MonoBehaviour
 
         // 적의 움직임 로직 추가
         MoveChildren();
+
+        // HPbar 위치 업데이트
+        if (hpBarInstance != null)
+        {
+            hpBarInstance.transform.position = transform.position + Vector3.up * 1.0f;
+        }
     }
 
     public void OnHit(int dmg)
@@ -38,6 +64,13 @@ public class Enemy : MonoBehaviour
         health -= dmg; // 체력 감소
         spriteRenderer.sprite = sprites[1]; // 피격당했을때 스프라이트 변경
         Invoke("ReturnSprite", 0.1f); // 0.1초 후 원래 스프라이트로 변경
+
+        // HPbar 활성화
+        if (!isHpBarVisible)
+        {
+            hpBarInstance.SetActive(true);
+            isHpBarVisible = true;
+        }
 
         if (health <= 0) // 체력이 0 이하이면
         {
@@ -72,6 +105,7 @@ public class Enemy : MonoBehaviour
         rigid.velocity = savedVelocity;
         gameManager.ResumeBackground();
     }
+    
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("BorderBullet")) // 충돌한 오브젝트의 태그가 BorderBullet이면
