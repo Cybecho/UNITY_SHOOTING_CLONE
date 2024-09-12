@@ -179,6 +179,7 @@ MonoBehaviour:
   - {fileID: -8421458170528590454, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   - {fileID: 3714015224569861163, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   hpBarPrefab: {fileID: 233875395441460256, guid: ab35ec3ccbccc0a42bd6fc177bbd2447, type: 3}
+  deathAnimationPrefab: {fileID: 1193697585549620789, guid: 8dcd23653a6f5ca4bad1a4c7a6acecd1, type: 3}
 --- !u!1001 &3342158049752116996
 PrefabInstance:
   m_ObjectHideFlags: 0

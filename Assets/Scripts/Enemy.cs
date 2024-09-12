@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     private Slider hpBarSlider; // HPbar Slider 컴포넌트
     private bool isHpBarVisible = false; // HPbar가 보이는지 여부
 
+    public GameObject deathAnimationPrefab; // 죽을 때 애니메이션 프리팹
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>(); // 리지드바디 컴포넌트 가져오기
@@ -97,8 +99,42 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0) // 체력이 0 이하이면
         {
-            Destroy(gameObject); // 게임 오브젝트 삭제
+            // 충돌 처리 해제
+            Collider2D collider = GetComponent<Collider2D>();
+            if (collider != null)
+            {
+                collider.enabled = false;
+            }
+
+            // 렌더링 비활성화
+            spriteRenderer.enabled = false;
+            if (hpBarInstance != null)
+            {
+                hpBarInstance.SetActive(false);
+            }
+
+            StartCoroutine(PlayDeathAnimationAndDestroy()); // 죽는 애니메이션 재생 후 삭제
         }
+    }
+
+    private IEnumerator PlayDeathAnimationAndDestroy()
+    {
+        // 죽을 때 애니메이션 생성
+        GameObject deathAnimation = Instantiate(deathAnimationPrefab, transform.position, Quaternion.identity);
+        Animator animator = deathAnimation.GetComponent<Animator>();
+
+        // 애니메이션이 한 사이클만 재생되도록 설정
+        if (animator != null)
+        {
+            animator.Play(0, -1, 0);
+            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        }
+
+        // 애니메이션 오브젝트 삭제
+        Destroy(deathAnimation);
+
+        // 적 오브젝트 삭제
+        Destroy(gameObject);
     }
 
     void ReturnSprite()
