@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
         }
 
         // 적의 움직임 로직 추가
+        MoveChildren();
     }
 
     void OnHit(int dmg)
@@ -47,23 +48,25 @@ public class Enemy : MonoBehaviour
         spriteRenderer.sprite = sprites[0]; // 원래 스프라이트로 변경
     }
 
+    void MoveChildren()
+    {
+        foreach (Transform child in transform)
+        {
+            child.position += (Vector3)(Vector2.down * speed * Time.deltaTime);
+        }
+    }
+
     public void StopMovement()
     {
-        isPaused = true; // 일시정지 상태로 변경
-        if (rigid != null) // 리지드바디가 null이 아닌 경우에만 실행
-        {
-            savedVelocity = rigid.velocity; // 현재 속도를 저장
-            rigid.velocity = Vector2.zero; // 속도를 0으로 설정하여 움직임 정지
-        }
+        isPaused = true;
+        savedVelocity = rigid.velocity;
+        rigid.velocity = Vector2.zero;
     }
 
     public void ResumeMovement()
     {
-        isPaused = false; // 일시정지 해제
-        if (rigid != null && savedVelocity != Vector2.zero) // 리지드바디가 null이 아니고 저장된 속도가 0이 아닌 경우에만 재시작
-        {
-            rigid.velocity = savedVelocity; // 저장된 속도로 움직임 재시작
-        }
+        isPaused = false;
+        rigid.velocity = savedVelocity;
     }
 
     void OnTriggerEnter2D(Collider2D collision)

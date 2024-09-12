@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public float spawnInterval;         // 스폰 주기 (초 단위)
     private Coroutine spawnCoroutine;   // 스폰 코루틴을 저장할 변수
+    private bool isSpawningPaused = false; // 스폰 일시정지 여부
 
     void Start()
     {
@@ -19,7 +20,10 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            SpawnEnemies(); // 적 스폰 함수 호출
+            if (!isSpawningPaused)
+            {
+                SpawnEnemies(); // 적 스폰 함수 호출
+            }
             yield return new WaitForSeconds(spawnInterval); // 스폰 주기만큼 대기
         }
     }
@@ -55,18 +59,11 @@ public class GameManager : MonoBehaviour
 
     public void PauseSpawning()
     {
-        if (spawnCoroutine != null)
-        {
-            StopCoroutine(spawnCoroutine); // 스폰 코루틴 정지
-            spawnCoroutine = null; // 코루틴 변수를 null로 설정
-        }
+        isSpawningPaused = true; // 스폰 일시정지
     }
 
     public void ResumeSpawning()
     {
-        if (spawnCoroutine == null)
-        {
-            spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine()); // 스폰 코루틴 재시작
-        }
+        isSpawningPaused = false; // 스폰 재시작
     }
 }

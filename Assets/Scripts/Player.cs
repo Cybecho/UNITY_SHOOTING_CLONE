@@ -49,14 +49,14 @@ public class Player : MonoBehaviour
         if ((isTouchTop && v > 0) || (isTouchBottom && v < 0)) v = 0;
 
         Vector3 curPos = transform.position;
-        Vector3 nextPos = new Vector3(h, v, 0).normalized * speed * Time.deltaTime;
+        Vector3 nextPos = new Vector3(h, 0, 0).normalized * speed * Time.deltaTime;
 
         transform.position = curPos + nextPos;
 
         // 매 프레임마다 애니메이터 파라미터 업데이트
         UpdateAnimatorParameters(h);
 
-        Debug.Log($"h value: {h}, Animator Input parameter: {anim.GetInteger("Input")}");
+        //Debug.Log($"h value: {h}, Animator Input parameter: {anim.GetInteger("Input")}");
     }
 
     void UpdateAnimatorParameters(float h)
