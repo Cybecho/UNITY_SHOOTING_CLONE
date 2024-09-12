@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public float power;         // 총알 파워
     public float maxShotDelay;  // 최대 총알 발사 딜레이
     public float curShotDelay;  // 현재 총알 발사 딜레이
+    public float attackRange;   // 공격 범위
 
     public bool isTouchTop;     // 위쪽 벽과 닿았는지 여부
     public bool isTouchBottom;  // 아래쪽 벽과 닿았는지 여부
@@ -26,17 +27,14 @@ public class Player : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>(); // GameManager 인스턴스 가져오기
-    }
-
-    void Awake()
-    {
         anim = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
     }
 
     void Update()
     {
         Move();     // 이동 함수
-        Fire();     // 발사 함수
+        //Fire();     // 발사 함수
+        AutoFire(); // 자동 발사 함수
         Reload();   // 재장전 함수 (총알 발사 딜레이 설정)
     }
 
@@ -55,8 +53,6 @@ public class Player : MonoBehaviour
 
         // 매 프레임마다 애니메이터 파라미터 업데이트
         UpdateAnimatorParameters(h);
-
-        //Debug.Log($"h value: {h}, Animator Input parameter: {anim.GetInteger("Input")}");
     }
 
     void UpdateAnimatorParameters(float h)
@@ -64,11 +60,23 @@ public class Player : MonoBehaviour
         anim.SetInteger("Input", (int)h);
     }
 
+    void AutoFire()
+    {
+        // 특정 y축 범위 내에 적이 있는지 확인
+        foreach (GameObject enemy in gameManager.enemyObjs)
+        {
+            if (enemy != null && Mathf.Abs(enemy.transform.position.y - transform.position.y) < attackRange) // y축 범위 설정
+            {
+                Fire();
+                break;
+            }
+        }
+    }
+
     void Fire()
     {
-        //! 나중에 특정 범위 내에 적이 있을 때만 자동으로 발사하도록 수정
-        if(!Input.GetButton("Fire1")) return;   // Fire1 버튼을 누르지 않으면 함수를 종료
-        if(curShotDelay < maxShotDelay) return; // 현재 총알 발사 딜레이가 최대 총알 발사 딜레이보다 작으면 함수를 종료
+        if (curShotDelay < maxShotDelay)
+            return;
 
         switch(power)   // 파워에 따라 총알 오브젝트를 다르게 생성
         {
@@ -85,7 +93,7 @@ public class Player : MonoBehaviour
                 rigidR.AddForce(Vector2.up * 10, ForceMode2D.Impulse);                                                           // 위쪽으로 힘을 가함
                 rigidL.AddForce(Vector2.up * 10, ForceMode2D.Impulse);                                                           // 위쪽으로 힘을 가함
                 break;
-            case 3: //트리플 공격
+            case 3: // 트리플 공격
                 GameObject bulletRR = Instantiate(bulletObjA, transform.position + Vector3.right * 0.3f, transform.rotation);    // 오른쪽 총알 오브젝트 생성
                 GameObject bulletCC = Instantiate(bulletObjB, transform.position, transform.rotation);                            // 중앙 총알 오브젝트 생성
                 GameObject bulletLL = Instantiate(bulletObjA, transform.position + Vector3.left * 0.3f, transform.rotation);     // 왼쪽 총알 오브젝트 생성
@@ -100,10 +108,9 @@ public class Player : MonoBehaviour
                 break;
         }
 
-
-        
-        curShotDelay = 0;                       // 현재 총알 발사 딜레이를 0으로 초기화
+        curShotDelay = 0;
     }
+
 
     void Reload()
     {
