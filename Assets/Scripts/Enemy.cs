@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
         MoveChildren();
     }
 
-    void OnHit(int dmg)
+    public void OnHit(int dmg)
     {
         health -= dmg; // 체력 감소
         spriteRenderer.sprite = sprites[1]; // 피격당했을때 스프라이트 변경

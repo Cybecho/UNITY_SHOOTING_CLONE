@@ -3,9 +3,13 @@ using UnityEngine;
 
 public class Follower : MonoBehaviour
 {
+    public enum FollowerType { TypeA, TypeB }
+    public FollowerType followerType;
+
     public float maxShotDelay;
     public float curShotDelay;
     public GameObject bulletObj;
+    public GameObject laserObj;
     public GameObject target; // 따라야 할 대상
 
     public float followSpeed = 5.0f; // Follower의 따라오는 속도
@@ -32,9 +36,17 @@ public class Follower : MonoBehaviour
         if (curShotDelay < maxShotDelay)
             return;
 
-        GameObject bullet = Instantiate(bulletObj, transform.position, transform.rotation); // 총알 오브젝트 생성
-        Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>(); // 총알 오브젝트의 Rigidbody2D 컴포넌트 가져오기
-        rigid.AddForce(Vector2.up * 10, ForceMode2D.Impulse); // 위쪽으로 힘을 가함
+        if (followerType == FollowerType.TypeA)
+        {
+            GameObject bullet = Instantiate(bulletObj, transform.position, transform.rotation); // 총알 오브젝트 생성
+            Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>(); // 총알 오브젝트의 Rigidbody2D 컴포넌트 가져오기
+            rigid.AddForce(Vector2.up * 10, ForceMode2D.Impulse); // 위쪽으로 힘을 가함
+        }
+        else if (followerType == FollowerType.TypeB)
+        {
+            GameObject laser = Instantiate(laserObj, transform.position, transform.rotation); // 레이저 오브젝트 생성
+            laser.transform.SetParent(transform); // 레이저를 Follower의 자식으로 설정
+        }
 
         curShotDelay = 0; // 현재 총알 발사 딜레이 초기화
     }

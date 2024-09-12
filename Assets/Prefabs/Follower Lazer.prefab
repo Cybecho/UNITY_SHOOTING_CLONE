@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7944217091261200380}
   - component: {fileID: -8082605087192332653}
   m_Layer: 0
-  m_Name: Follower Razer
+  m_Name: Follower Lazer
   m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
