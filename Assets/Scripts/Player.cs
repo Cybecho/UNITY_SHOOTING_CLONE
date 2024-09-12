@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     private bool isGamePaused = false;  // 게임 일시정지 여부
     private int enemyCollisionCount = 0; // 적과의 충돌 횟수 추적
 
+    private bool isCollidingWithEnemy = false; // 적과 충돌 중인지 여부
+    private float collisionDamageTimer = 0.5f; // 충돌 데미지 타이머
+
     public GameObject[] followerPrefabs; // Follower 프리팹 배열
     private List<GameObject> followers = new List<GameObject>(); // 생성된 Follower 리스트
     
@@ -33,7 +36,7 @@ public class Player : MonoBehaviour
     private Slider hpBarSlider; // HPbar Slider 컴포넌트
     private bool isHpBarVisible = false; // HPbar가 보이는지 여부
     public int maxHealth = 100; // 최대 체력
-    private int health; // 현재 체력
+    public int health; // 현재 체력
 
     void Start()
     {
@@ -77,9 +80,10 @@ public class Player : MonoBehaviour
         health = maxHealth;
         if (hpBarSlider != null)
         {
-            hpBarSlider.minValue = 0;
-            hpBarSlider.maxValue = maxHealth;
-            hpBarSlider.value = health; // 초기 체력 비율로 Slider 값 설정
+            health = maxHealth;
+            hpBarSlider.minValue = 0.0f;
+            hpBarSlider.maxValue = 1.0f;
+            hpBarSlider.value = 1.0f; // 초기 값은 최대 체력 비율
         }
     }
 
@@ -93,6 +97,16 @@ public class Player : MonoBehaviour
         if (hpBarInstance != null)
         {
             hpBarInstance.transform.position = transform.position + Vector3.down * 0.7f;
+        }
+
+        if (isCollidingWithEnemy)
+        {
+            collisionDamageTimer -= Time.deltaTime;
+            if (collisionDamageTimer <= 0)
+            {
+                OnHit((int)(maxHealth * 0.1f)); // 체력의 10% 데미지
+                collisionDamageTimer = 0.5f; // 타이머 초기화
+            }
         }
     }
     
@@ -182,6 +196,8 @@ public class Player : MonoBehaviour
                 gameManager.PauseSpawning(); // 적 스폰 일시정지
                 StopAllEnemies(); // 모든 적의 움직임 정지
                 StopAllBackgrounds(); // 모든 배경의 움직임 정지
+                OnHit((int)(maxHealth * 0.1f)); // 최초 충돌 시 체력의 10% 데미지
+                isCollidingWithEnemy = true; // 충돌 상태 설정
             }
             enemyCollisionCount++;
         }
@@ -216,6 +232,8 @@ public class Player : MonoBehaviour
                 isGamePaused = false;
                 gameManager.ResumeSpawning(); // 적 스폰 재시작
                 ResumeAllEnemies(); // 모든 적의 움직임 재시작
+                isCollidingWithEnemy = false; // 충돌 상태 해제
+                collisionDamageTimer = 0.5f; // 타이머 초기화
             }
         }
 
@@ -241,7 +259,7 @@ public class Player : MonoBehaviour
 
     public void OnHit(int dmg)
     {
-        health -= dmg; // 체력 감소
+        StartCoroutine(DecreaseHealthOverTime(dmg)); // 체력을 가변적으로 줄이는 코루틴 시작
 
         // HPbar 활성화
         if (!isHpBarVisible)
@@ -249,16 +267,30 @@ public class Player : MonoBehaviour
             hpBarInstance.SetActive(true);
             isHpBarVisible = true;
         }
+    }
 
-        // HPbar Slider 값 업데이트
-        if (hpBarSlider != null)
+    private IEnumerator DecreaseHealthOverTime(int dmg)
+    {
+        int damagePerTick = 1; // 한 틱당 감소할 데미지
+        while (dmg > 0)
         {
-            hpBarSlider.value = (float)health / maxHealth; // 체력 비율로 Slider 값 설정
-        }
+            health -= damagePerTick;
+            dmg -= damagePerTick;
 
-        if (health <= 0) // 체력이 0 이하이면
-        {
-            Destroy(gameObject); // 게임 오브젝트 삭제
+            // HPbar Slider 값 업데이트
+            if (hpBarSlider != null)
+            {
+                hpBarSlider.value = (float)health / maxHealth; // 체력 비율로 Slider 값 설정
+            }
+
+            // 체력이 0 이하이면 게임 오브젝트 삭제
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+                yield break;
+            }
+
+            yield return new WaitForSeconds(0.1f); // 0.1초마다 데미지 감소
         }
     }
 
