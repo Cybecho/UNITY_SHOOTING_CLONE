@@ -17,7 +17,15 @@ public class Player : MonoBehaviour
     public GameObject bulletObjA; // 총알 프리팹 A
     public GameObject bulletObjB; // 총알 프리팹 B
 
+    private GameManager gameManager;    // 게임 매니저
+    private bool isGamePaused = false;  // 게임 일시정지 여부
+
     Animator anim;              // 애니메이터
+
+    void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>(); // GameManager 인스턴스 가져오기
+    }
 
     void Awake()
     {
@@ -106,9 +114,16 @@ public class Player : MonoBehaviour
     // 충돌 처리 (벽과 닿았을 때)
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Border")    // Border 태그와 충돌 시
+        if (collision.gameObject.CompareTag("Enemy")) // 충돌한 오브젝트의 태그가 Enemy이면
         {
-            switch(collision.gameObject.name)       // 충돌한 오브젝트의 이름으로 분기
+            isGamePaused = true;
+            gameManager.PauseSpawning(); // 적 스폰 일시정지
+            StopAllEnemies(); // 모든 적의 움직임 정지
+        }
+
+        if (collision.gameObject.tag == "Border")    // Border 태그와 충돌 시
+        {
+            switch (collision.gameObject.name)       // 충돌한 오브젝트의 이름으로 분기
             {
                 case "Top":
                     isTouchTop = true;
@@ -129,6 +144,13 @@ public class Player : MonoBehaviour
     // 충돌 해제
     void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Enemy")) // 충돌한 오브젝트의 태그가 Enemy이면
+        {
+            isGamePaused = false;
+            gameManager.ResumeSpawning(); // 적 스폰 재시작
+            ResumeAllEnemies(); // 모든 적의 움직임 재시작
+        }
+
         if (collision.gameObject.tag == "Border")    // Border 태그와 충돌 시
         {
             switch (collision.gameObject.name)       // 충돌한 오브젝트의 이름으로 분기
@@ -146,6 +168,24 @@ public class Player : MonoBehaviour
                     isTouchLeft = false;
                     break;
             }
+        }
+    }
+
+    void StopAllEnemies()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>(); // 모든 적 오브젝트 가져오기
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.StopMovement(); // 모든 적의 움직임 정지
+        }
+    }
+
+    void ResumeAllEnemies()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>(); // 모든 적 오브젝트 가져오기
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.ResumeMovement(); // 모든 적의 움직임 재시작
         }
     }
 }

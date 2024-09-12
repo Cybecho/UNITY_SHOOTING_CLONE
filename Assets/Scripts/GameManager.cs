@@ -8,10 +8,11 @@ public class GameManager : MonoBehaviour
     public Transform[] spawnPoints;     // 스폰 위치 배열
 
     public float spawnInterval;         // 스폰 주기 (초 단위)
+    private Coroutine spawnCoroutine;   // 스폰 코루틴을 저장할 변수
 
     void Start()
     {
-        StartCoroutine(SpawnEnemiesRoutine()); // Coroutine 시작
+        spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine()); // Coroutine 시작
     }
 
     IEnumerator SpawnEnemiesRoutine()
@@ -49,6 +50,23 @@ public class GameManager : MonoBehaviour
                         spawnPoints[ranPoint].rotation); // 적 오브젝트 생성
 
             availablePoints.RemoveAt(ranIndex); // 사용한 스폰 지점 제거
+        }
+    }
+
+    public void PauseSpawning()
+    {
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine); // 스폰 코루틴 정지
+            spawnCoroutine = null; // 코루틴 변수를 null로 설정
+        }
+    }
+
+    public void ResumeSpawning()
+    {
+        if (spawnCoroutine == null)
+        {
+            spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine()); // 스폰 코루틴 재시작
         }
     }
 }
