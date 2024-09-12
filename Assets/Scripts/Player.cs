@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -27,6 +28,13 @@ public class Player : MonoBehaviour
     
     Animator anim;              // 애니메이터
 
+    public GameObject hpBarPrefab; // HPbar 프리팹 참조
+    private GameObject hpBarInstance; // 생성된 HPbar 인스턴스
+    private Slider hpBarSlider; // HPbar Slider 컴포넌트
+    private bool isHpBarVisible = false; // HPbar가 보이는지 여부
+    public int maxHealth = 100; // 최대 체력
+    private int health; // 현재 체력
+
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>(); // GameManager 인스턴스 가져오기
@@ -42,6 +50,37 @@ public class Player : MonoBehaviour
             followers.Add(follower);
             previousFollower = follower; // 다음 Follower는 현재 Follower를 따라감
         }
+
+        // HPbar 생성 및 초기화
+        hpBarInstance = Instantiate(hpBarPrefab, transform.position + Vector3.down * 1.0f, Quaternion.identity, transform);
+        hpBarInstance.SetActive(true); // 초기에는 활성화
+
+        // HPbar가 올바르게 설정되었는지 확인
+        Canvas hpBarCanvas = hpBarInstance.GetComponentInChildren<Canvas>();
+        if (hpBarCanvas != null)
+        {
+            hpBarCanvas.renderMode = RenderMode.WorldSpace;
+        }
+        else
+        {
+            Debug.LogError("HPbar 프리팹에 Canvas 컴포넌트가 없습니다.");
+        }
+
+        // HPbar Slider 컴포넌트 가져오기
+        hpBarSlider = hpBarInstance.GetComponentInChildren<Slider>();
+        if (hpBarSlider == null)
+        {
+            Debug.LogError("HPbar 프리팹에 Slider 컴포넌트가 없습니다.");
+        }
+
+        // 초기 체력 설정
+        health = maxHealth;
+        if (hpBarSlider != null)
+        {
+            hpBarSlider.minValue = 0;
+            hpBarSlider.maxValue = maxHealth;
+            hpBarSlider.value = health; // 초기 체력 비율로 Slider 값 설정
+        }
     }
 
     void Update()
@@ -49,6 +88,12 @@ public class Player : MonoBehaviour
         Move();     // 이동 함수
         AutoFire(); // 자동 발사 함수
         Reload();   // 재장전 함수 (총알 발사 딜레이 설정)
+
+        // HPbar 위치 업데이트
+        if (hpBarInstance != null)
+        {
+            hpBarInstance.transform.position = transform.position + Vector3.down * 0.5f;
+        }
     }
     
     void Move()
@@ -191,6 +236,29 @@ public class Player : MonoBehaviour
                     isTouchLeft = false;
                     break;
             }
+        }
+    }
+
+    public void OnHit(int dmg)
+    {
+        health -= dmg; // 체력 감소
+
+        // HPbar 활성화
+        if (!isHpBarVisible)
+        {
+            hpBarInstance.SetActive(true);
+            isHpBarVisible = true;
+        }
+
+        // HPbar Slider 값 업데이트
+        if (hpBarSlider != null)
+        {
+            hpBarSlider.value = (float)health / maxHealth; // 체력 비율로 Slider 값 설정
+        }
+
+        if (health <= 0) // 체력이 0 이하이면
+        {
+            Destroy(gameObject); // 게임 오브젝트 삭제
         }
     }
 
