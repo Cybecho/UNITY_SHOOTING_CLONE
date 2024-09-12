@@ -100,6 +100,6 @@ MonoBehaviour:
   maxShotDelay: 2
   curShotDelay: 0
   bulletObj: {fileID: 5469043012367574129, guid: bca3e33963345124e84db057bae9959a, type: 3}
-  player: {fileID: 0}
-  followSpeed: 2
+  target: {fileID: 0}
+  followSpeed: 5
   yOffset: 1

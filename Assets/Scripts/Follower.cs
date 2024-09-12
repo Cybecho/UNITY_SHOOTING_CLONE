@@ -8,7 +8,7 @@ public class Follower : MonoBehaviour
     public GameObject bulletObj;
     public GameObject target; // 따라야 할 대상
 
-    public float followSpeed = 2.0f; // Follower의 따라오는 속도
+    public float followSpeed = 5.0f; // Follower의 따라오는 속도
     public float yOffset = 1.0f; // Follower가 대상의 뒤에 있을 거리
 
     void Update()

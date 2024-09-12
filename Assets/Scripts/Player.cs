@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
     private int enemyCollisionCount = 0; // 적과의 충돌 횟수 추적
 
     public GameObject[] followerPrefabs; // Follower 프리팹 배열
-    public int followerCount; // 생성할 Follower 수
     private List<GameObject> followers = new List<GameObject>(); // 생성된 Follower 리스트
     
     Animator anim;              // 애니메이터
@@ -35,11 +34,10 @@ public class Player : MonoBehaviour
 
         // Follower 생성 및 초기화
         GameObject previousFollower = this.gameObject; // 첫 번째 Follower는 Player를 따라감
-        for (int i = 0; i < followerCount; i++)
+        for (int i = 0; i < followerPrefabs.Length; i++)
         {
-            int randomIndex = Random.Range(0, followerPrefabs.Length);
             Vector3 spawnPosition = previousFollower.transform.position - new Vector3(0, (i + 1) * 1.0f, 0); // 각 Follower가 이전 Follower의 뒤에 생성되도록 위치 조정
-            GameObject follower = Instantiate(followerPrefabs[randomIndex], spawnPosition, Quaternion.identity);
+            GameObject follower = Instantiate(followerPrefabs[i], spawnPosition, Quaternion.identity);
             follower.GetComponent<Follower>().target = previousFollower; // 이전 Follower를 따라가도록 설정
             followers.Add(follower);
             previousFollower = follower; // 다음 Follower는 현재 Follower를 따라감
