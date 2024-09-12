@@ -34,23 +34,25 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
 
         // Follower 생성 및 초기화
+        GameObject previousFollower = this.gameObject; // 첫 번째 Follower는 Player를 따라감
         for (int i = 0; i < followerCount; i++)
         {
             int randomIndex = Random.Range(0, followerPrefabs.Length);
-            GameObject follower = Instantiate(followerPrefabs[randomIndex], transform.position, Quaternion.identity);
-            follower.GetComponent<Follower>().player = this.gameObject;
+            Vector3 spawnPosition = previousFollower.transform.position - new Vector3(0, (i + 1) * 1.0f, 0); // 각 Follower가 이전 Follower의 뒤에 생성되도록 위치 조정
+            GameObject follower = Instantiate(followerPrefabs[randomIndex], spawnPosition, Quaternion.identity);
+            follower.GetComponent<Follower>().target = previousFollower; // 이전 Follower를 따라가도록 설정
             followers.Add(follower);
+            previousFollower = follower; // 다음 Follower는 현재 Follower를 따라감
         }
     }
 
     void Update()
     {
         Move();     // 이동 함수
-        //Fire();     // 발사 함수
         AutoFire(); // 자동 발사 함수
         Reload();   // 재장전 함수 (총알 발사 딜레이 설정)
     }
-
+    
     void Move()
     {
         float h = Input.GetAxisRaw("Horizontal");
