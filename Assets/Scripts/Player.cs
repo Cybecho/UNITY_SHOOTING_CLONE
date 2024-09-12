@@ -290,7 +290,7 @@ public class Player : MonoBehaviour
                 yield break;
             }
 
-            yield return new WaitForSeconds(0.1f); // 0.1초마다 데미지 감소
+            yield return new WaitForSeconds(0.05f); // 0.05초마다 데미지 감소
         }
     }
 
