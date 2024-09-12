@@ -179,7 +179,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 116f5946c869de149b064ad08c6b7e42, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -857,6 +857,8 @@ MonoBehaviour:
   - {fileID: 1229411987}
   maxSpawnDelay: 2
   curSpawnDelay: 0
+  minEnemies: 1
+  maxEnemies: 3
 --- !u!4 &792672795
 Transform:
   m_ObjectHideFlags: 0

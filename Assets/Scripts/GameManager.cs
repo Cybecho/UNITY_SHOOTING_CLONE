@@ -10,9 +10,6 @@ public class GameManager : MonoBehaviour
     public float maxSpawnDelay;         // 최대 스폰 딜레이
     public float curSpawnDelay;         // 현재 스폰 딜레이
 
-    public int minEnemies = 1;          // 최소 스폰 적 수
-    public int maxEnemies = 3;          // 최대 스폰 적 수
-
     void Update()
     {
         curSpawnDelay += Time.deltaTime;    // 현재 스폰 딜레이 증가
@@ -27,7 +24,10 @@ public class GameManager : MonoBehaviour
 
     void SpawnEnemies()
     {
-        int enemyCount = Random.Range(minEnemies, maxEnemies + 1); // 랜덤 적 수
+        int baseEnemyCount = 3; // 최소 스폰 적 수
+        int additionalEnemyCount = Random.Range(0, 3); // 추가 스폰 적 수 (0~2)
+        int totalEnemyCount = baseEnemyCount + additionalEnemyCount; // 총 스폰 적 수
+
         List<int> availablePoints = new List<int>();
 
         for (int i = 0; i < spawnPoints.Length; i++)
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
             availablePoints.Add(i);
         }
 
-        for (int i = 0; i < enemyCount; i++)
+        for (int i = 0; i < totalEnemyCount; i++)
         {
             if (availablePoints.Count == 0) break; // 사용 가능한 스폰 지점이 없으면 종료
 
