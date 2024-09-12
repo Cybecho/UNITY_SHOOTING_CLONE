@@ -62,14 +62,12 @@ public class Player : MonoBehaviour
 
     void AutoFire()
     {
-        // 특정 y축 범위 내에 적이 있는지 확인
-        foreach (GameObject enemy in gameManager.enemyObjs)
+        curShotDelay += Time.deltaTime;  // 현재 총알 발사 딜레이에 시간을 더함
+
+        if (curShotDelay >= maxShotDelay)
         {
-            if (enemy != null && Mathf.Abs(enemy.transform.position.y - transform.position.y) < attackRange) // y축 범위 설정
-            {
-                Fire();
-                break;
-            }
+            Fire();  // 발사 함수 호출
+            curShotDelay = 0;  // 현재 총알 발사 딜레이 초기화
         }
     }
 
@@ -102,13 +100,12 @@ public class Player : MonoBehaviour
                 Rigidbody2D rigidLL = bulletLL.GetComponent<Rigidbody2D>();                                                        // 왼쪽 총알 오브젝트의 Rigidbody2D 컴포넌트 가져오기
                 rigidRR.AddForce(Vector2.up * 10, ForceMode2D.Impulse);                                                           // 위쪽으로 힘을 가함
                 rigidCC.AddForce(Vector2.up * 10, ForceMode2D.Impulse);                                                           // 위쪽으로 힘을 가함
-                rigidLL.AddForce(Vector2.up * 10, ForceMode2D.Impulse);   
+                rigidLL.AddForce(Vector2.up * 10, ForceMode2D.Impulse);                                                           // 위쪽으로 힘을 가함
                 break;
             default:
                 break;
         }
-
-        curShotDelay = 0;
+        curShotDelay = 0; // 현재 총알 발사 딜레이 초기화
     }
 
 
