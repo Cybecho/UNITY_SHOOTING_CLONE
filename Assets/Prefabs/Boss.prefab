@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flySpeed: 5
   rotateSpeed: 360
-  lifetime: 2
+  lifetime: 5
   isDead: 0
 --- !u!1001 &3342158049752116996
 PrefabInstance:

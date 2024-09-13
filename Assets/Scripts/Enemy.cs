@@ -131,6 +131,13 @@ public class Enemy : MonoBehaviour
                 hpBarInstance.SetActive(false);
             }
 
+            // 카메라 쉐이크 효과 호출
+            CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+            if (cameraShake != null)
+            {
+                StartCoroutine(cameraShake.Shake(0.12f, 0.05f)); // 예시로 0.1초 동안 0.03의 강도로 쉐이크
+            }
+
             StartCoroutine(PlayDeathAnimationAndDestroy()); // 죽는 애니메이션 재생 후 삭제
         }
     }

@@ -198,7 +198,7 @@ public class Player : MonoBehaviour
                 gameManager.PauseSpawning(); // 적 스폰 일시정지
                 StopAllEnemies(); // 모든 적의 움직임 정지
                 StopAllBackgrounds(); // 모든 배경의 움직임 정지
-                OnHit((int)(maxHealth * enemy.dmg)); // 최초 충돌 시 적의 데미지만큼 데미지
+                OnHit((int)(maxHealth * enemy.dmg),0.2f,0.2f); // 최초 충돌 시 적의 데미지만큼 데미지
                 isCollidingWithEnemy = true; // 충돌 상태 설정
             }
             enemyCollisionCount++;
@@ -208,6 +208,7 @@ public class Player : MonoBehaviour
         {
             if (enemyCollisionCount == 0)
             {
+                OnHit(0, 1.0f, 0.2f); // 피격 함수 호출
                 isGamePaused = true;
                 gameManager.PauseSpawning(); // 적 스폰 일시정지
                 StopAllEnemies(); // 모든 적의 움직임 정지
@@ -222,7 +223,7 @@ public class Player : MonoBehaviour
             BossBullet bulletBoss = collision.gameObject.GetComponent<BossBullet>(); // 충돌한 오브젝트의 BulletBoss 컴포넌트 가져오기
             if (bulletBoss != null)
             {
-                OnHit(bulletBoss.dmg); // 피격 함수 호출
+                OnHit(bulletBoss.dmg, 0.6f, 0.3f); // 피격 함수 호출
                 Destroy(collision.gameObject); // 충돌한 오브젝트 삭제
             }
         }
@@ -282,7 +283,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void OnHit(int dmg)
+    public void OnHit(int dmg, float shakeDuration, float shakeMagnitude)
     {
         StartCoroutine(DecreaseHealthOverTime(dmg)); // 체력을 가변적으로 줄이는 코루틴 시작
 
@@ -291,6 +292,13 @@ public class Player : MonoBehaviour
         {
             hpBarInstance.SetActive(true);
             isHpBarVisible = true;
+        }
+
+        // 카메라 쉐이크 효과 호출
+        CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+        if (cameraShake != null)
+        {
+            StartCoroutine(cameraShake.Shake(shakeDuration, shakeMagnitude)); // 외부에서 설정된 값으로 쉐이크
         }
     }
 
