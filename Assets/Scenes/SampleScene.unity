@@ -1064,7 +1064,7 @@ MonoBehaviour:
   - {fileID: 1229411987}
   spawnInterval: 1
   goalBarSlider: {fileID: 1630043130}
-  goalCount: 5
+  goalCount: 20
   bossBulletPrefabs:
   - {fileID: 7282608381852396747, guid: bf7057bfd21883846995891f1987b36f, type: 3}
   - {fileID: 7282608381852396747, guid: e08ea2949eddda24789b72f0d466d7f2, type: 3}
@@ -1386,7 +1386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9021376228521491183, guid: b9a45e07cb61009459a30432d3e52fd3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 89.5
+      value: 156.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
