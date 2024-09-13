@@ -211,7 +211,7 @@ public class Player : MonoBehaviour
         {
             if (enemyCollisionCount == 0)
             {
-                OnHit(0, 1.0f, 0.2f); // 피격 함수 호출
+                OnHit(0, 0.6f, 0.2f); // 피격 함수 호출
                 isGamePaused = true;
                 gameManager.PauseSpawning(); // 적 스폰 일시정지
                 StopAllEnemies(); // 모든 적의 움직임 정지
@@ -226,7 +226,7 @@ public class Player : MonoBehaviour
             BossBullet bulletBoss = collision.gameObject.GetComponent<BossBullet>(); // 충돌한 오브젝트의 BulletBoss 컴포넌트 가져오기
             if (bulletBoss != null)
             {
-                OnHit(bulletBoss.dmg, 0.6f, 0.3f); // 피격 함수 호출
+                OnHit(bulletBoss.dmg, 0.3f, 0.1f); // 피격 함수 호출
                 Destroy(collision.gameObject); // 충돌한 오브젝트 삭제
             }
         }
