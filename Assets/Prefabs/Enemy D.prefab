@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924a1b6d27e3a124a826d6a70fb9f0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   speed: 4
   maxHealth: 15
   health: 15
@@ -179,7 +180,8 @@ MonoBehaviour:
   sprites:
   - {fileID: -8421458170528590454, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   - {fileID: 3714015224569861163, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
-  hpBarPrefab: {fileID: 233875395441460256, guid: ab35ec3ccbccc0a42bd6fc177bbd2447, type: 3}
+  normalHpBarPrefab: {fileID: 233875395441460256, guid: ab35ec3ccbccc0a42bd6fc177bbd2447, type: 3}
+  bossHpBarPrefab: {fileID: 233875395441460256, guid: f3600c1877ac779498f39f9d85fe3324, type: 3}
   deathAnimationPrefab: {fileID: 1193697585549620789, guid: 8dcd23653a6f5ca4bad1a4c7a6acecd1, type: 3}
 --- !u!1001 &3342158049752116996
 PrefabInstance:

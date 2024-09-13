@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5692434947097501625}
   - component: {fileID: 2397104156013872104}
   - component: {fileID: 5734038347524858402}
+  - component: {fileID: 8620661307172315420}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -173,13 +174,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924a1b6d27e3a124a826d6a70fb9f0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 1
   speed: 2
   maxHealth: 1000
   health: 1000
+  dmg: 0
   sprites:
   - {fileID: 2192450021786810173, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   - {fileID: -7945901444079236628, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
-  hpBarPrefab: {fileID: 233875395441460256, guid: ab35ec3ccbccc0a42bd6fc177bbd2447, type: 3}
+  normalHpBarPrefab: {fileID: 233875395441460256, guid: ab35ec3ccbccc0a42bd6fc177bbd2447, type: 3}
+  bossHpBarPrefab: {fileID: 233875395441460256, guid: f3600c1877ac779498f39f9d85fe3324, type: 3}
   deathAnimationPrefab: {fileID: 1193697585549620789, guid: 8dcd23653a6f5ca4bad1a4c7a6acecd1, type: 3}
 --- !u!95 &5734038347524858402
 Animator:
@@ -202,6 +206,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8620661307172315420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7981391424940645645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ee98cf2be81eb46b3e4d73d156e691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatSpeed: 5
+  floatAmount: 0.05
 --- !u!1001 &3342158049752116996
 PrefabInstance:
   m_ObjectHideFlags: 0

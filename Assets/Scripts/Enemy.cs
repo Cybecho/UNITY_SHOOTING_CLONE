@@ -5,6 +5,9 @@ using UnityEngine.UI; // Slider를 사용하기 위해 추가
 
 public class Enemy : MonoBehaviour
 {
+    public enum EnemyType { Normal, Boss }
+    public EnemyType enemyType; // 적의 타입
+
     public float speed; // 이동 속도
     public int maxHealth; // 최대 체력
     public int health; // 현재 체력
@@ -16,10 +19,12 @@ public class Enemy : MonoBehaviour
     private bool isPaused = false; // 일시정지 여부
     private GameManager gameManager;
 
-    public GameObject hpBarPrefab; // HPbar 프리팹 참조
+    public GameObject normalHpBarPrefab; // 일반 Enemy HPbar 프리팹 참조
+    public GameObject bossHpBarPrefab; // Boss HPbar 프리팹 참조
     private GameObject hpBarInstance; // 생성된 HPbar 인스턴스
     private Slider hpBarSlider; // HPbar Slider 컴포넌트
     private bool isHpBarVisible = false; // HPbar가 보이는지 여부
+    private bool isBoss => enemyType == EnemyType.Boss; // 적이 보스인지 여부
 
     public GameObject deathAnimationPrefab; // 죽을 때 애니메이션 프리팹
 
@@ -32,7 +37,14 @@ public class Enemy : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
 
         // HPbar 생성 및 초기화
-        hpBarInstance = Instantiate(hpBarPrefab, transform.position + Vector3.up * 1.0f, Quaternion.identity, transform);
+        if (isBoss)
+        {
+            hpBarInstance = Instantiate(bossHpBarPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        }
+        else
+        {
+            hpBarInstance = Instantiate(normalHpBarPrefab, transform.position + Vector3.up * 1.0f, Quaternion.identity, transform);
+        }
         hpBarInstance.SetActive(false); // 초기에는 비활성화
 
         // HPbar가 올바르게 설정되었는지 확인
@@ -73,7 +85,7 @@ public class Enemy : MonoBehaviour
         MoveChildren();
 
         // HPbar 위치 업데이트
-        if (hpBarInstance != null)
+        if (hpBarInstance != null && !isBoss)
         {
             hpBarInstance.transform.position = transform.position + Vector3.up * 1.0f;
         }
