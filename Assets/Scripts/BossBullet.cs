@@ -11,7 +11,7 @@ public class BossBullet : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.gravityScale = Random.Range(0.5f, 1.5f);         // 중력 값을 랜덤 값으로 설정
+            rb.gravityScale = Random.Range(0.8f, 1.8f);         // 중력 값을 랜덤 값으로 설정
         }
     }
 

@@ -99,13 +99,14 @@ public class Player : MonoBehaviour
             hpBarInstance.transform.position = transform.position + Vector3.down * 0.7f;
         }
 
+        // HPbar 피통 줄어드는 속도 조절
         if (isCollidingWithEnemy)
         {
             collisionDamageTimer -= Time.deltaTime;
             if (collisionDamageTimer <= 0)
             {
-                OnHit((int)(maxHealth * 0.1f)); // 체력의 10% 데미지
-                collisionDamageTimer = 0.5f; // 타이머 초기화
+                //OnHit((int)(maxHealth * 0.1f)); // 체력의 10% 데미지 (이거 키면 보스전에서도 데미지 계속입음 )
+                collisionDamageTimer = 0.15f; // 타이머 초기화
             }
         }
     }
@@ -197,7 +198,6 @@ public class Player : MonoBehaviour
                 gameManager.PauseSpawning(); // 적 스폰 일시정지
                 StopAllEnemies(); // 모든 적의 움직임 정지
                 StopAllBackgrounds(); // 모든 배경의 움직임 정지
-                //OnHit((int)(maxHealth * 0.1f)); // 최초 충돌 시 체력의 10% 데미지
                 OnHit((int)(maxHealth * enemy.dmg)); // 최초 충돌 시 적의 데미지만큼 데미지
                 isCollidingWithEnemy = true; // 충돌 상태 설정
             }
