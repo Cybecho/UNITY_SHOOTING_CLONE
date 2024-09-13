@@ -119,8 +119,13 @@ public class Enemy : MonoBehaviour
                 collider.enabled = false;
             }
 
-            // 렌더링 비활성화
-            spriteRenderer.enabled = false;
+            // DeadEnemyController의 isDead 활성화
+            DeadEnemyController deadEnemyController = GetComponent<DeadEnemyController>();
+            if (deadEnemyController != null)
+            {
+                deadEnemyController.isDead = true;
+            }
+
             if (hpBarInstance != null)
             {
                 hpBarInstance.SetActive(false);

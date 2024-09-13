@@ -196,8 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf62d32fef11bf409ab10ffbd31ca09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeed: 5
-  rotateSpeed: 720
+  flySpeed: 15
+  rotateSpeed: 1440
   lifetime: 1
   isDead: 0
 --- !u!1001 &3342158049752116996

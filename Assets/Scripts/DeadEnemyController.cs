@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class DeadEnemyController : MonoBehaviour
 {
-    public float flySpeed = 5f;
+    public float flySpeed = 50f;
     public float rotateSpeed = 720f;
-    public float lifetime = 1f;
+    public float lifetime = 1.5f;
     public bool isDead = false; // 외부에서 상태 변경 가능
 
     private Vector3 flyDirection;
     private float elapsedTime = 0f;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
@@ -18,6 +19,9 @@ public class DeadEnemyController : MonoBehaviour
 
         // Set slightly random fly direction (mostly upwards)
         flyDirection = new Vector3(Random.Range(-0.5f, 0.5f), 1, 0).normalized;
+
+        // Get the SpriteRenderer component
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -34,6 +38,11 @@ public class DeadEnemyController : MonoBehaviour
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= lifetime)
             {
+                // 렌더링 비활성화
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.enabled = false;
+                }
                 Destroy(gameObject);
             }
         }
