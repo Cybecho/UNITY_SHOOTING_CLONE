@@ -76,8 +76,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2311659948842064771, guid: 6520dda4a70dfbf40a55b7af39ecda4e, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 16486b3b301861f498e3c24c45727eb4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,11 +100,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51daac3530e98814589949bd197392ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 3
+  power: 1
   maxShotDelay: 0.1
   curShotDelay: 0
   attackRange: 1
-  speed: 5
+  speed: 7
   isTouchTop: 0
   isTouchBottom: 0
   isTouchRight: 0
@@ -114,6 +114,9 @@ MonoBehaviour:
   followerPrefabs:
   - {fileID: 8490733068545688574, guid: c0da8f90e7876bf47abda43593dbf30b, type: 3}
   - {fileID: 8490733068545688574, guid: c985967f18f7197439040b9a6532d3e6, type: 3}
+  hpBarPrefab: {fileID: 0}
+  maxHealth: 100
+  health: 0
 --- !u!61 &9088210863116371848
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -150,7 +153,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.8, y: 0.8}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

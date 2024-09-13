@@ -759,6 +759,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -840,6 +841,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feda3ddd96b3af0429724228bbb43798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &662416207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,12 +1030,17 @@ MonoBehaviour:
   - {fileID: 1229411987}
   spawnInterval: 1
   goalBarSlider: {fileID: 1630043130}
-  goalCount: 10
+  goalCount: 5
   bossBulletPrefabs:
   - {fileID: 7282608381852396747, guid: bf7057bfd21883846995891f1987b36f, type: 3}
-  bossBulletSpawnInterval: 1
+  - {fileID: 7282608381852396747, guid: e08ea2949eddda24789b72f0d466d7f2, type: 3}
+  - {fileID: 7282608381852396747, guid: 0d584b318508b13478f3e4c6df4f907e, type: 3}
+  - {fileID: 7282608381852396747, guid: ef627c590ca525c4a9ac5b8f9e9eb874, type: 3}
+  bossBulletSpawnInterval: 0.5
   bossPrefab: {fileID: 7981391424940645645, guid: 28e9d85524a1d124cbabd284c603bae7, type: 3}
   bossSpawnPoint: {fileID: 669563566}
+  gameClearPrefab: {fileID: 5231316941762168646, guid: bc079dd35a515b14a9ff76e5e1e42846, type: 3}
+  gameClearSpawnPoint: {fileID: 669563566}
 --- !u!4 &792672795
 Transform:
   m_ObjectHideFlags: 0
@@ -1629,6 +1647,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5946254172614789927, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946254172614789927, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
       propertyPath: attackRange
       value: 4
       objectReference: {fileID: 0}
@@ -1662,7 +1684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7636598129945339384, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.54
+      value: -1.97
       objectReference: {fileID: 0}
     - target: {fileID: 7636598129945339384, guid: 51ee87dbb966f0448a5d92685777b3ba, type: 3}
       propertyPath: m_LocalPosition.z

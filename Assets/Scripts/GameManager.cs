@@ -18,12 +18,15 @@ public class GameManager : MonoBehaviour
 
     private bool isSpawningEnabled = true; // 몬스터 소환 플래그
     private bool isBossMode = false;       // 보스모드 플래그
+    private bool isGameCleared = false;    // 게임 클리어 플래그 추가
 
     public GameObject[] bossBulletPrefabs; // 보스 총알 프리팹 배열
     public float bossBulletSpawnInterval = 1f; // 보스 총알 스폰 주기
 
     public GameObject bossPrefab;       // 보스 프리팹
     public Transform bossSpawnPoint;    // 보스 스폰 지점
+    public GameObject gameClearPrefab;  // 게임 클리어 프리팹 추가
+    public Transform gameClearSpawnPoint; // 게임 클리어 스폰 지점 추가
 
     void Start()
     {
@@ -157,5 +160,35 @@ public class GameManager : MonoBehaviour
         {
             background.ResumeMovement();
         }
+    }
+
+    // 보스 사망 처리 함수 수정
+    public void OnBossDeath()
+    {
+        isGameCleared = true; // 게임 클리어 플래그 활성화
+        Debug.Log("게임 클리어!");
+        Instantiate(gameClearPrefab, gameClearSpawnPoint.position, gameClearSpawnPoint.rotation); // 게임 클리어 프리팹 스폰
+
+        // 4초 후 초기 상태로 돌아가는 코루틴 시작
+        StartCoroutine(ResetGameAfterClear());
+    }
+
+    // 게임 클리어 후 초기 상태로 돌아가는 코루틴 추가
+    private IEnumerator ResetGameAfterClear()
+    {
+        yield return new WaitForSeconds(3f); // 4초 대기
+
+        // 게임 클리어 상태 초기화
+        isGameCleared = false;
+
+        // 보스 모드 종료
+        isBossMode = false;
+
+        // 보스 총알 스폰 코루틴 종료
+        StopCoroutine(SpawnBossBullets());
+
+        // 일반 모드 시작 (다시 몬스터 스폰 시작)
+        isSpawningEnabled = true;
+        spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine());
     }
 }

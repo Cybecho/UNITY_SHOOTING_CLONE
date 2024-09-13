@@ -217,5 +217,9 @@ public class Enemy : MonoBehaviour
             OnHit(bullet.dmg); // 피격 함수 호출
             Destroy(collision.gameObject); // 충돌한 오브젝트 삭제
         }
+        if (health <= 0 && isBoss) // 보스가 사망했을 때
+        {
+            gameManager.OnBossDeath(); // 게임 클리어 처리
+        }
     }
 }

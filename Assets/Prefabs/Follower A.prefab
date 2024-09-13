@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 612596470744354101, guid: 606e3127513c6c74d852755e18a67337, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3f2cf5a379faf2b47b83f797218c891f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,9 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d61288748e8a15448d978075c7bce4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followerType: 0
   maxShotDelay: 2
   curShotDelay: 0
   bulletObj: {fileID: 5469043012367574129, guid: bca3e33963345124e84db057bae9959a, type: 3}
+  laserObj: {fileID: 0}
   target: {fileID: 0}
   followSpeed: 5
   yOffset: 1
