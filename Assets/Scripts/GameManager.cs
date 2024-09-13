@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // 씬 전환을 위해 추가
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject playerPrefab; // 플레이어 프리팹
+    public Transform playerSpawnPoint; // 플레이어 스폰 지점
+
     public GameObject[] enemyObjs;      // 적 오브젝트 배열
     public Transform[] spawnPoints;     // 스폰 위치 배열
     public float spawnInterval;         // 스폰 주기 (초 단위)
@@ -27,6 +31,9 @@ public class GameManager : MonoBehaviour
     public Transform bossSpawnPoint;    // 보스 스폰 지점
     public GameObject gameClearPrefab;  // 게임 클리어 프리팹 추가
     public Transform gameClearSpawnPoint; // 게임 클리어 스폰 지점 추가
+
+    public string gameOverSceneName = "GameOver";
+    public string gameClearSceneName = "GameClear";
 
     void Start()
     {
@@ -168,27 +175,68 @@ public class GameManager : MonoBehaviour
         isGameCleared = true; // 게임 클리어 플래그 활성화
         Debug.Log("게임 클리어!");
         Instantiate(gameClearPrefab, gameClearSpawnPoint.position, gameClearSpawnPoint.rotation); // 게임 클리어 프리팹 스폰
-
+    
         // 4초 후 초기 상태로 돌아가는 코루틴 시작
         StartCoroutine(ResetGameAfterClear());
     }
 
+
     // 게임 클리어 후 초기 상태로 돌아가는 코루틴 추가
     private IEnumerator ResetGameAfterClear()
     {
-        yield return new WaitForSeconds(3f); // 4초 대기
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(gameClearSceneName); // 게임 클리어 씬으로 전환
+    }
+    
+    public void OnPlayerDeath()
+    {
+        // 모든 스폰된 객체 삭제
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
 
-        // 게임 클리어 상태 초기화
+        GameObject[] bossBullets = GameObject.FindGameObjectsWithTag("BossBullet");
+        foreach (GameObject bullet in bossBullets)
+        {
+            Destroy(bullet);
+        }
+
+        // GameOver 씬으로 전환
+        SceneManager.LoadScene(gameOverSceneName);
+    }
+
+    private IEnumerator RestartGame()
+    {
+        yield return new WaitForSeconds(1f); // 잠시 대기
+
+        // 게임 상태 초기화
         isGameCleared = false;
-
-        // 보스 모드 종료
         isBossMode = false;
-
-        // 보스 총알 스폰 코루틴 종료
-        StopCoroutine(SpawnBossBullets());
-
-        // 일반 모드 시작 (다시 몬스터 스폰 시작)
         isSpawningEnabled = true;
+        spawnCount = 0;
+        goalBarSlider.value = 0;
+
+        // 배경 스크롤 재시작
+        ResumeBackground();
+
+        // 적 스폰 재시작
         spawnCoroutine = StartCoroutine(SpawnEnemiesRoutine());
+    }
+
+    // 게임오버를 처리하는 메서드
+    public void GameOver()
+    {
+        Debug.Log("게임 오버!");
+        SceneManager.LoadScene(gameOverSceneName); // 게임 오버 씬으로 전환
+    }
+
+    // 게임클리어를 처리하는 메서드
+    public void GameClear()
+    {
+        Debug.Log("Game Clear 메서드 호출됨"); // 디버그 로그 추가
+        // 게임클리어 씬으로 전환
+        SceneManager.LoadScene(gameClearSceneName);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // 씬 전환을 위해 추가
 
 public class Player : MonoBehaviour
 {
@@ -93,6 +94,8 @@ public class Player : MonoBehaviour
         AutoFire(); // 자동 발사 함수
         Reload();   // 재장전 함수 (총알 발사 딜레이 설정)
 
+        if (health <= 0) OnDeath(); // 체력이 0 이하이면 사망 처리
+        
         // HPbar 위치 업데이트
         if (hpBarInstance != null)
         {
@@ -302,6 +305,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void OnDeath()
+    {
+        gameManager.OnPlayerDeath();
+        SceneManager.LoadScene("GameOver");
+        Destroy(gameObject); // 플레이어 오브젝트 삭제
+    }
+
     private IEnumerator DecreaseHealthOverTime(int dmg)
     {
         int damagePerTick = 1; // 한 틱당 감소할 데미지
@@ -314,13 +324,6 @@ public class Player : MonoBehaviour
             if (hpBarSlider != null)
             {
                 hpBarSlider.value = (float)health / maxHealth; // 체력 비율로 Slider 값 설정
-            }
-
-            // 체력이 0 이하이면 게임 오브젝트 삭제
-            if (health <= 0)
-            {
-                Destroy(gameObject);
-                yield break;
             }
 
             yield return new WaitForSeconds(0.05f); // 0.05초마다 데미지 감소

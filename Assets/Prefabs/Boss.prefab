@@ -313,8 +313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   speed: 2
-  maxHealth: 500
-  health: 500
+  maxHealth: 2000
+  health: 2000
   dmg: 0
   sprites:
   - {fileID: 21300000, guid: 60f1953ec05ed4a479207120f00f414d, type: 3}
