@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9033545234474655249}
   - component: {fileID: 5692434947097501625}
   - component: {fileID: 2397104156013872104}
+  - component: {fileID: -6483696771651472910}
   m_Layer: 0
   m_Name: Enemy E
   m_TagString: Enemy
@@ -183,6 +184,22 @@ MonoBehaviour:
   normalHpBarPrefab: {fileID: 233875395441460256, guid: ab35ec3ccbccc0a42bd6fc177bbd2447, type: 3}
   bossHpBarPrefab: {fileID: 233875395441460256, guid: f3600c1877ac779498f39f9d85fe3324, type: 3}
   deathAnimationPrefab: {fileID: 1193697585549620789, guid: 8dcd23653a6f5ca4bad1a4c7a6acecd1, type: 3}
+--- !u!114 &-6483696771651472910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7981391424940645645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf62d32fef11bf409ab10ffbd31ca09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flySpeed: 5
+  rotateSpeed: 720
+  lifetime: 1
+  isDead: 0
 --- !u!1001 &3342158049752116996
 PrefabInstance:
   m_ObjectHideFlags: 0
