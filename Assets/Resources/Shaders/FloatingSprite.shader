@@ -58,9 +58,11 @@ Shader "Custom/FloatingSprite"
                 OUT.texcoord = IN.texcoord;
                 OUT.color = IN.color * _Color;
 
-                // Apply floating effect
-                OUT.vertex.y += sin(_Time.y * _FloatSpeed) * _FloatAmount;
-                
+                // Apply Möbius strip effect
+                float time = _Time.y * _FloatSpeed;
+                OUT.vertex.x += cos(time) * _FloatAmount;
+                OUT.vertex.y += sin(time) * _FloatAmount;
+
                 return OUT;
             }
 

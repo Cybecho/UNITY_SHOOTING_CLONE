@@ -176,8 +176,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   speed: 2
-  maxHealth: 1000
-  health: 1000
+  maxHealth: 3000
+  health: 3000
   dmg: 0
   sprites:
   - {fileID: 2192450021786810173, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
@@ -218,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ee98cf2be81eb46b3e4d73d156e691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatSpeed: 5
-  floatAmount: 0.05
+  floatSpeed: 10
+  floatAmount: 0.02
 --- !u!1001 &3342158049752116996
 PrefabInstance:
   m_ObjectHideFlags: 0
