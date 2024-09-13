@@ -190,13 +190,28 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy")) // 충돌한 오브젝트의 태그가 Enemy이면
         {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>(); // 충돌한 오브젝트의 Enemy 컴포넌트 가져오기
             if (enemyCollisionCount == 0)
             {
                 isGamePaused = true;
                 gameManager.PauseSpawning(); // 적 스폰 일시정지
                 StopAllEnemies(); // 모든 적의 움직임 정지
                 StopAllBackgrounds(); // 모든 배경의 움직임 정지
-                OnHit((int)(maxHealth * 0.1f)); // 최초 충돌 시 체력의 10% 데미지
+                //OnHit((int)(maxHealth * 0.1f)); // 최초 충돌 시 체력의 10% 데미지
+                OnHit((int)(maxHealth * enemy.dmg)); // 최초 충돌 시 적의 데미지만큼 데미지
+                isCollidingWithEnemy = true; // 충돌 상태 설정
+            }
+            enemyCollisionCount++;
+        }
+
+        if (collision.gameObject.CompareTag("Boss")) // 충돌한 오브젝트의 태그가 Boss이면
+        {
+            if (enemyCollisionCount == 0)
+            {
+                isGamePaused = true;
+                gameManager.PauseSpawning(); // 적 스폰 일시정지
+                StopAllEnemies(); // 모든 적의 움직임 정지
+                StopAllBackgrounds(); // 모든 배경의 움직임 정지
                 isCollidingWithEnemy = true; // 충돌 상태 설정
             }
             enemyCollisionCount++;
@@ -234,7 +249,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy")) // 충돌한 오브젝트의 태그가 Enemy이면
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Boss")) // 충돌한 오브젝트의 태그가 Enemy이면
         {
             enemyCollisionCount--;
             if (enemyCollisionCount == 0)

@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float speed; // 이동 속도
     public int maxHealth; // 최대 체력
     public int health; // 현재 체력
+    public float dmg; // 데미지
     public Sprite[] sprites; // 스프라이트 배열
     private Rigidbody2D rigid; // 리지드바디 컴포넌트
     private SpriteRenderer spriteRenderer; // 스프라이트 렌더러 컴포넌트
